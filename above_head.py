@@ -24,7 +24,7 @@ while cap.isOpened():
             resized_overlay = cv2.resize(sticker_image[:, :, :3], (w, h))
             roi = frame[y:y+h, x:x+w]
 
-            # 이 부분에서 스티커를 얼굴 상단에 표시하도록 조정
+            # Resize the sticker and overlay it on the face
             sticker_height = int(h * 0.5)
             sticker_width = int((sticker_height / resized_overlay.shape[0]) * resized_overlay.shape[1])
             sticker = cv2.resize(resized_overlay, (sticker_width, sticker_height))
@@ -49,8 +49,8 @@ while cap.isOpened():
             captured_image = cv2.imread(image_filename)
             captured_images.append(captured_image)
 
+            # If 3 images are captured, exit the loop
             if image_count == 3:
-                # 이미지를 3번 촬영하면 루프를 종료
                 break
 
     else:
@@ -58,7 +58,7 @@ while cap.isOpened():
 
 cap.release()
 
-# 이미지 합치기 및 저장
+# Merge captured images vertically and save the result
 if captured_images:
     merged_image = np.vstack(captured_images)  # 수직으로 이미지 합치기
     cv2.imwrite('merged_image.png', merged_image)
